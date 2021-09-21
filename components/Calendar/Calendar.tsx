@@ -18,7 +18,7 @@ const Calendar = ({ month, year, className }: Props) => {
   console.log(date);
 
   return (
-    <div className={clsx(className, 'bg-gray-800 border-2 rounded-xl')}>
+    <div className={clsx(className, 'bg-gray-800 rounded-xl')}>
       <CalendarHeader date={date} />
       <CalendarTable date={date} />
     </div>
