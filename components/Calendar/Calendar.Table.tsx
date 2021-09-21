@@ -24,7 +24,7 @@ const CalendarTable = ({ date }: Props) => {
             <tr className="table-row" {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 <th className="table-cell" {...column.getHeaderProps()}>
-                  <div className="text-gray-600 font-bold text-sm">
+                  <div className="text-gray-100 font-semibold text-md">
                     {column.render('Header')}
                   </div>
                 </th>
@@ -39,28 +39,35 @@ const CalendarTable = ({ date }: Props) => {
               <tr {...row.getRowProps()}>
                 {row.cells.map((cell) => {
                   const cellDate = cell.value;
+                  const isAnotherMonth = !cellDate.hasSame(date, 'month');
+                  const isSunday = cellDate.weekday === 7;
 
                   return (
                     <td className="table-cell" {...cell.getCellProps()}>
                       <div
                         className={clsx(
+                          isAnotherMonth &&
+                            'text-gray-400 border-0 bg-transparent',
+
+                          isSunday &&
+                            !isAnotherMonth &&
+                            'text-gray-200 border-gray-700',
                           `
-                          relative w-full text-gray-600 font-semibold border-2 rounded-md
+                          bg-[#2E2F33]
+                          relative w-full h-12 text-white font-semibold border-2 rounded-md
                           overflow-hidden cursor-pointer transition-shadow duration-1000
 
                           hover:transition-shadow hover:duration-[0s] hover:shadow-calendar-primary-500
-
-                          after:block after:pb-[75%]  
+                          flex flex-col items-center
                           `
                         )}
                       >
-                        <div
-                          className={clsx(
-                            'text-[0.950rem] absolute w-full h-full flex flex-col items-center justify-center'
-                          )}
-                        >
+                        <div className="text-md w-full  text-right mr-1.5">
                           {cell.render('Cell')}
                         </div>
+                        {!isAnotherMonth && !isSunday && (
+                          <div className="h-2 w-2 mt-auto mb-1.5 bg-white rounded-full"></div>
+                        )}
                       </div>
                     </td>
                   );
